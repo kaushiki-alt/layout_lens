@@ -13,7 +13,7 @@ const UploadBox = ({ uploadImage, setUploadImage, previewURL, setPreviewURL }) =
 
     }
     return (
-        <div className='bg-card p-6 rounded-3xl border border-border shadow-lg shadow-black/10'>
+        <div className='bg-card p-6 rounded-3xl border border-border shadow-lg shadow-black/10 h-full'>
             <section className='upload-box flex flex-col gap-6 backdrop-blur-sm'>
                 <div className="header flex flex-col gap-2">
                     <h2 className="capitalize text-xl font-semibold tracking-tight">
@@ -29,6 +29,7 @@ const UploadBox = ({ uploadImage, setUploadImage, previewURL, setPreviewURL }) =
                     <input
                         type="file"
                         className="hidden"
+                        accept='image/*'
                         ref={inputRef}
                         onChange={(e) => handleImageUpload(e)}
                     />
@@ -54,8 +55,8 @@ const UploadBox = ({ uploadImage, setUploadImage, previewURL, setPreviewURL }) =
                     </h2>
                 </div>
 
-                <div className="uploaded-img bg-background/40 border border-border rounded-2xl p-3">
-                    <Image src={previewURL} width={1200} height={800} alt="uploaded image" className='rounded-lg w-full object-cover border border-border' />
+                <div className="uploaded-img bg-background/40 border border-border rounded-2xl p-3 max-h-125 overflow-hidden">
+                    <Image src={previewURL} width={1200} height={800} alt="uploaded image" className='rounded-lg w-full max-h-120 object-cover border border-border' />
                 </div>
             </section>
             }
@@ -69,3 +70,4 @@ export default UploadBox
 
 //  ------------------- TODO --------------------------
 // drag and drop the image
+// add image validation

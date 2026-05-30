@@ -2,12 +2,12 @@
 
 LayoutLens is an AI-powered frontend analysis tool that helps developers understand UI structure from screenshots.
 
-Users can upload a UI screenshot and get insights such as:
+Upload a UI screenshot and receive insights such as:
 
-* detected sections
-* component hierarchy
-* design style analysis
-* frontend structure suggestions
+* Detected sections
+* Component hierarchy
+* Design style analysis
+* Frontend structure suggestions
 
 ## Preview
 
@@ -16,8 +16,12 @@ Users can upload a UI screenshot and get insights such as:
 ## Current Progress
 
 * Upload UI completed
-* Preview section completed
-* Dark themed SaaS-style UI setup
+* Image upload functionality implemented
+* Dynamic image preview completed
+* Analysis dashboard UI completed
+* Empty, loading, and result states implemented
+* Component hierarchy copy feature added
+* Dark-themed SaaS-style interface completed
 * Responsive layout structure initialized
 
 ## Tech Stack
@@ -29,12 +33,12 @@ Users can upload a UI screenshot and get insights such as:
 
 ## Planned Features
 
-* AI-powered UI analysis
-* Image upload support
-* Vision model integration
+* Vision AI integration
+* Real-time UI analysis
 * Design style detection
 * Component hierarchy generation
-* Tailwind suggestions
+* Frontend recommendations
+* Tailwind CSS suggestions
 
 ## Getting Started
 
@@ -60,4 +64,4 @@ Open `http://localhost:3000` in your browser.
 
 ## Status
 
-Work in progress.
+Frontend MVP completed. AI integration is currently in progress.
