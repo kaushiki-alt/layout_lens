@@ -1,11 +1,17 @@
+'use client'
+import AnalysisPanel from "@/components/AnalysisPanel";
 import UploadBox from "@/components/UploadBox";
-import Image from "next/image";
+import { useState } from "react";
 
 export default function Home() {
+  const [uploadImage, setUploadImage] = useState('UIDesign.png');
+  const [previewURL, setPreviewURL] = useState(null)
   return (
-    <div className="grid lg:grid-cols-2 gap-4 p-4 px-8">
-      <UploadBox />
-      <h3>LAYOUT LENS</h3>
-    </div>
+    <main className="grid lg:grid-cols-2 gap-4 p-4 px-8">
+      <UploadBox uploadImage={uploadImage} setUploadImage={setUploadImage} previewURL={previewURL} setPreviewURL={setPreviewURL} />
+      <AnalysisPanel uploadImage={uploadImage} />
+    </main>
   );
 }
+
+// null the "uploadImage" and "analysisResult" state
