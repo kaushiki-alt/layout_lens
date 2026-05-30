@@ -4,7 +4,7 @@ import UploadBox from "@/components/UploadBox";
 import { useState } from "react";
 
 export default function Home() {
-  const [uploadImage, setUploadImage] = useState('UIDesign.png');
+  const [uploadImage, setUploadImage] = useState(null);
   const [previewURL, setPreviewURL] = useState(null)
   return (
     <main className="grid lg:grid-cols-2 gap-4 p-4 px-8">

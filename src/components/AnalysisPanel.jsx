@@ -33,7 +33,7 @@ const AnalysisPanel = ({ uploadImage }) => {
     };
 
     const [isAnalyzing, setIsAnalyzing] = useState(false);
-    const [analysisResult, setAnalysisResult] = useState(dummyAnalysis);
+    const [analysisResult, setAnalysisResult] = useState(null);
 
 
     const analyzingImage = () => {
