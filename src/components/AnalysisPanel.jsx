@@ -2,62 +2,69 @@ import { BrainCircuit, CheckCircle2, Copy, GitBranch, LayoutGrid, LoaderCircle, 
 import React, { useState } from 'react'
 
 const AnalysisPanel = ({ uploadImage }) => {
-    const dummyAnalysis = {
-        sections: [
-            "Navbar",
-            "Hero Section",
-            "Features Grid",
-            "Testimonials",
-            "Footer",
-        ],
-
-        hierarchy: `
-<App>
-├── Navbar
-├── HeroSection
-├── FeaturesGrid
-├── Testimonials
-└── Footer
-  `,
-
-        designStyle: {
-            title: "Modern SaaS Interface",
-
-            characteristics: [
-                "Rounded corners",
-                "Soft shadows",
-                "Spacious layout",
-                "Indigo accent palette",
-            ],
-        },
-    };
-
     const [isAnalyzing, setIsAnalyzing] = useState(false);
     const [analysisResult, setAnalysisResult] = useState(null);
     const [copied, setCopied] = useState(false)
 
-const handleCopy = async (question) => {
-  try {
-    await navigator.clipboard.writeText(question);
-    setCopied(true);
+    const handleCopy = async (question) => {
+        try {
+            await navigator.clipboard.writeText(question);
+            setCopied(true);
 
-    setTimeout(() => {
-      setCopied(false)
-    }, 400);
-  }
-  catch(error){
-    console.error(
-      "Failed to copy:",
-      error
-    )
-  }
-}
+            setTimeout(() => {
+                setCopied(false)
+            }, 400);
+        }
+        catch (error) {
+            console.error(
+                "Failed to copy:",
+                error
+            )
+        }
+    }
 
-    const analyzingImage = () => {
+    const convertToBase64 = (file) => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = (error) => reject(error);
+        })
+    }
+
+
+    const analyzingImage = async () => {
         setIsAnalyzing(true);
-        setAnalysisResult(dummyAnalysis);
+        const base64Image = await convertToBase64(uploadImage)
+        const response = await fetch('/api/analyze-ui', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                image: base64Image,
+            }),
+        })
+
+        const { message } = await response.json();
+
+        const cleanResponse = message
+            .replace(/```json/g, "")
+            .replace(/```/g, "")
+            .trim();
+
+        const analysis = JSON.parse(cleanResponse);
+
+        setAnalysisResult(analysis);
+
         setIsAnalyzing(false)
     }
+
+    const hierarchyLines = analysisResult?.hierarchy
+  .split("\n")
+  .filter(Boolean);
+
     return (
         <div className='bg-card p-6 rounded-3xl border border-border shadow-lg shadow-black/10 overflow-y-scroll'>
             <section className='text-center flex flex-col items-center justify-center gap-4 h-full min-h-150'>
@@ -115,19 +122,19 @@ const handleCopy = async (question) => {
                             </div>
 
                             <div className="bg-background/40 border border-border rounded-2xl p-4 flex flex-col gap-4">
-                            <div className="flex items-center justify-between">
-                                <h3 className="font-semibold text-left capitalize flex items-center">
-                                    <GitBranch className="text-primary mr-2 size-5" />
-                                    Component Hierarchy
-                                </h3>
+                                <div className="flex items-center justify-between">
+                                    <h3 className="font-semibold text-left capitalize flex items-center">
+                                        <GitBranch className="text-primary mr-2 size-5" />
+                                        Component Hierarchy
+                                    </h3>
 
-                                <button className='flex bg-transparent border border-border rounded-xl px-3 py-1 items-center text-secondary text-sm hover:bg-background/60' onClick={() => handleCopy(analysisResult.hierarchy)}>
-                                    <span><Copy className='mr-1 size-4' /></span>
-                                    {copied ? 'Copied' : 'Copy'}</button>
+                                    <button className='flex bg-transparent border border-border rounded-xl px-3 py-1 items-center text-secondary text-sm hover:bg-background/60' onClick={() => handleCopy(analysisResult.hierarchy)}>
+                                        <span><Copy className='mr-1 size-4' /></span>
+                                        {copied ? 'Copied' : 'Copy'}</button>
                                 </div>
 
                                 <div className="bg-card rounded-xl p-4 font-mono">
-                                    <pre className="text-sm text-secondary whitespace-pre-wrap text-left">
+                                    <pre className="text-sm text-secondary whitespace-pre-wrap text-left leading-relaxed">
                                         {analysisResult.hierarchy}
                                     </pre>
                                 </div>
@@ -141,7 +148,7 @@ const handleCopy = async (question) => {
                                     </h3>
 
                                     <span className="px-3 py-1 rounded-full bg-success/10 text-success text-sm font-medium">
-                                       {analysisResult.designStyle.title}
+                                        {analysisResult.designStyle.title}
                                     </span>
                                 </div>
 
@@ -184,3 +191,34 @@ const handleCopy = async (question) => {
 }
 
 export default AnalysisPanel
+
+//     const dummyAnalysis = {
+//         sections: [
+//             "Navbar",
+//             "Hero Section",
+//             "Features Grid",
+//             "Testimonials",
+//             "Footer",
+//         ],
+
+//         hierarchy: `
+// <App>
+// ├── Navbar
+// ├── HeroSection
+// ├── FeaturesGrid
+// ├── Testimonials
+// └── Footer
+//   `,
+
+//         designStyle: {
+//             title: "Modern SaaS Interface",
+
+//             characteristics: [
+//                 "Rounded corners",
+//                 "Soft shadows",
+//                 "Spacious layout",
+//                 "Indigo accent palette",
+//             ],
+//         },
+//     };
+
