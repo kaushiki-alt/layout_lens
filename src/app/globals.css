@@ -76,7 +76,7 @@ body {
 /* Scrollbar */
 
 ::-webkit-scrollbar{
-  width: 8px;
+  width: 5px;
 }
 
 ::-webkit-scrollbar-track{
@@ -90,4 +90,13 @@ body {
 
 ::-webkit-scrollbar-thumb:hover{
   background: #475569;
+}
+
+/* In your globals.css */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }

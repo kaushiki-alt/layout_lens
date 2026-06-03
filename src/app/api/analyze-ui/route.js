@@ -18,44 +18,63 @@ export async function POST(req) {
                             {
                                 type: "text",
                                 text: `
-Analyze the UI screenshot.
+You are a senior frontend engineer analyzing a UI screenshot.
 
-Return ONLY valid JSON.
+Scan the UI top-to-bottom, left-to-right. Identify visually distinct regions separated by spacing, borders, or background changes.
 
-Use EXACTLY this schema:
+Return ONLY a valid JSON object. No markdown. No code blocks. No explanation. No text before or after the JSON.
 
+Schema:
 {
-  "sections": ["", "", ""],
+  "sections": ["", ""],
   "hierarchy": "",
   "designStyle": {
     "title": "",
-    "characteristics": ["", "", ""]
+    "characteristics": ["", ""]
   }
 }
 
-Rules:
-- sections must be an array of section names only
-- maximum 8 sections
-- hierarchy maximum 15 lines
-- characteristics maximum 6 items
-- do not include nested objects
-- do not include element analysis
-- do not include labels, metrics, values, or descriptions
-- do not use markdown
-- return parseable JSON only
+Field rules:
 
-keep the heirarchy section strictly like this(in this format) not exactly same in string:
+"sections"
+- List only sections clearly visible in the screenshot
+- Max 8 items
+- Use standard names: Navbar, Sidebar, Hero, Features, Pricing, Testimonials, CTA, Footer, Dashboard, Modal, Form, Card Grid
+- If unsure about a section, omit it
+
+"hierarchy"
+- Plain string using box-drawing characters (├── └── │)
+- Max 3 levels of nesting
+- Max 15 lines total
+- Only include components you can visually confirm
+- Use PascalCase component names
+
+"designStyle.title"
+- Exactly 2-4 words
+- Format: [Mood/Style] + [UI Type]
+- Examples: "Minimal SaaS Dashboard", "Dark Dev Tool", "Bold E-commerce Store", "Clean Admin Panel"
+
+"designStyle.characteristics"
+- Exactly 6 items
+- Each item max 4 words, noun phrase only, no verbs
+- One item per category in this exact order:
+  1. Color scheme (e.g. "Dark navy palette")
+  2. Typography (e.g. "Sans-serif geometric font")
+  3. Spacing (e.g. "Generous whitespace layout")
+  4. Borders and shadows (e.g. "Subtle card shadows")
+  5. Layout structure (e.g. "12-column grid system")
+  6. Visual mood (e.g. "Professional and minimal")
+
+Hierarchy format:
 App
-├── Header
-│   ├── User Profile/Project Selector
-│   └── Global Nav Bar
+├── Navbar
+│   ├── Logo
+│   └── NavLinks
 ├── Sidebar
-│   ├── Search Input
-│   └── Main Navigation
-└── Main Content Area
-    ├── Projects Grid
-    ├── Usage Section
-    └── Alerts Section
+│   └── MenuItems
+└── MainContent
+    ├── SectionA
+    └── SectionB
           `,
                             },
                             {
@@ -71,11 +90,11 @@ App
         });
 
         const data = await response.json();
-        
+
 
         return Response.json({
             success: true,
-            message:data.choices?.[0]?.message?.content,
+            message: data.choices?.[0]?.message?.content,
         });
     } catch (error) {
         return Response.json(

@@ -13,7 +13,7 @@ const UploadBox = ({ uploadImage, setUploadImage, previewURL, setPreviewURL }) =
 
     }
     return (
-        <div className='bg-card p-6 rounded-3xl border border-border shadow-lg shadow-black/10 h-full'>
+        <div className='bg-card p-6 rounded-3xl border border-border shadow-lg shadow-black/10 h-full overflow-y-auto'>
             <section className='upload-box flex flex-col gap-6 backdrop-blur-sm'>
                 <div className="header flex flex-col gap-2">
                     <h2 className="capitalize text-xl font-semibold tracking-tight">
@@ -25,7 +25,7 @@ const UploadBox = ({ uploadImage, setUploadImage, previewURL, setPreviewURL }) =
                     </p>
                 </div>
 
-                <div className="upload min-h-80 border-dashed border border-primary/40 bg-background/40 flex flex-col justify-center items-center text-center gap-3 px-6 rounded-2xl cursor-pointer hover:border-primary hover:bg-background/60 transition-all duration-300">
+                <div className="upload min-h-60 md:min-h-80 border-dashed border border-primary/40 bg-background/40 flex flex-col justify-center items-center text-center gap-3 px-6 rounded-2xl cursor-pointer hover:border-primary hover:bg-background/60 transition-all duration-300">
                     <input
                         type="file"
                         className="hidden"
@@ -55,8 +55,8 @@ const UploadBox = ({ uploadImage, setUploadImage, previewURL, setPreviewURL }) =
                     </h2>
                 </div>
 
-                <div className="uploaded-img bg-background/40 border border-border rounded-2xl p-3 max-h-125 overflow-hidden">
-                    <Image src={previewURL} width={1200} height={800} alt="uploaded image" className='rounded-lg w-full max-h-120 object-cover border border-border' />
+                <div className="uploaded-img bg-background/40 border border-border rounded-2xl p-3 max-h-125 overflow-auto lg:max-h-none lg:overflow-visible">
+                    <Image src={previewURL} width={1200} height={800} alt="uploaded image" className='rounded-lg w-full max-h-120 object-contain border border-border overflow-auto' />
                 </div>
             </section>
             }
